@@ -1,4 +1,4 @@
-# Architectural Design Document v1: Nexus Portal
+# Architectural Design Document v2: Nexus Portal
 
 This document describes the architectural layout, communication patterns, database schema designs, and data flows of the Nexus Portal.
 
@@ -129,9 +129,22 @@ Itemized lines purchased during checkout.
 8. For subsequent secure requests, the React client attaches this token in the `Authorization: Bearer <token>` header.
 
 ### 4.2 User Management & RBAC Flow
-1. A logged-in administrator visits the **Admin Panel**.
-2. React client switches to the **Users & RBAC Control** tab.
-3. React client makes a `GET` request to `user-service` at `/api/users` with the `Authorization` header.
-4. `user-service` controller intercepts the request, decodes the JWT, verifies the role is `ADMIN`, and returns the list of all user DTOs.
-5. When the administrator changes a user's role from the dropdown, React client makes a `PUT` request to `/api/users/{id}/role` sending the new role in the request body.
-6. `user-service` validates the caller's admin privileges, updates the selected user's role column in the DB, and returns the updated `UserDTO`.
+1. A logged-in administrator visits the **User Directory** navigation item in the frontend.
+2. React client makes a `GET` request to `user-service` at `/api/users` with the `Authorization` header.
+3. `user-service` controller intercepts the request, decodes the JWT, verifies the role is `ADMIN`, and returns the list of all user DTOs.
+4. When the administrator changes a user's role from the dropdown, React client makes a `PUT` request to `/api/users/{id}/role` sending the new role in the request body.
+5. `user-service` validates the caller's admin privileges, updates the selected user's role column in the DB, and returns the updated `UserDTO`.
+
+---
+
+## 5. End-to-End Testing (Playwright)
+
+To validate cross-service integrations and transaction rollback logic, the application includes a Playwright E2E automation runner located under the `./playwright-tests` directory.
+
+### 5.1 Test Execution Suite Configuration
+- **Browser target**: Chromium (Desktop Chrome).
+- **Execution mode**: Serial (Sequential). Sequential runs are enforced because tests simulate a continuous user lifecycle:
+  1. *Registration & Login*: Registers a new dynamic profile (`pw_user_*`) and establishes a session.
+  2. *Shopping & Checkout*: Adds a product, increments quantity to 2, checkouts, and validates database order mapping.
+  3. *Admin & RBAC Promotion*: Logs in as admin, inserts a new product, searches for the dynamic user profile, promotes it to `ADMIN`, logs out, and finally logs back in as the dynamic user to verify that admin control interfaces are now visible and operational.
+- **Reporting**: Generates a standard HTML dashboard showing action logs and trace screenshots.

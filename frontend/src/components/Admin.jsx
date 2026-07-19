@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import axios from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import axios from 'axios';
 import { Plus, Package, FileText, DollarSign, Layers, Image, Loader2, CheckCircle2 } from 'lucide-react';
 
 export default function Admin({ token, onProductAdded }) {
@@ -8,10 +8,20 @@ export default function Admin({ token, onProductAdded }) {
   const [price, setPrice] = useState('');
   const [stock, setStock] = useState('');
   const [imageUrl, setImageUrl] = useState('');
-  
+
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
+
+  const timeoutRef = useRef(null);
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -51,9 +61,9 @@ export default function Admin({ token, onProductAdded }) {
         setPrice('');
         setStock('');
         setImageUrl('');
-        
+
         if (onProductAdded) {
-          setTimeout(() => {
+          timeoutRef.current = setTimeout(() => {
             onProductAdded();
           }, 1000);
         }
@@ -111,10 +121,10 @@ export default function Admin({ token, onProductAdded }) {
             <label style={{ color: 'var(--text-secondary)', fontWeight: 500, fontSize: '0.85rem' }}>Product Name *</label>
             <div style={{ position: 'relative' }}>
               <Package size={16} style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
-              <input 
-                type="text" 
-                className="input-field" 
-                placeholder="Product title" 
+              <input
+                type="text"
+                className="input-field"
+                placeholder="Product title"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 disabled={loading}
@@ -127,9 +137,9 @@ export default function Admin({ token, onProductAdded }) {
             <label style={{ color: 'var(--text-secondary)', fontWeight: 500, fontSize: '0.85rem' }}>Description *</label>
             <div style={{ position: 'relative' }}>
               <FileText size={16} style={{ position: 'absolute', left: '16px', top: '16px', color: 'var(--text-muted)' }} />
-              <textarea 
-                className="input-field" 
-                placeholder="Enter detailed description..." 
+              <textarea
+                className="input-field"
+                placeholder="Enter detailed description..."
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 disabled={loading}
@@ -144,11 +154,11 @@ export default function Admin({ token, onProductAdded }) {
               <label style={{ color: 'var(--text-secondary)', fontWeight: 500, fontSize: '0.85rem' }}>Price ($) *</label>
               <div style={{ position: 'relative' }}>
                 <DollarSign size={16} style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
-                <input 
-                  type="number" 
+                <input
+                  type="number"
                   step="0.01"
-                  className="input-field" 
-                  placeholder="0.00" 
+                  className="input-field"
+                  placeholder="0.00"
                   value={price}
                   onChange={(e) => setPrice(e.target.value)}
                   disabled={loading}
@@ -161,10 +171,10 @@ export default function Admin({ token, onProductAdded }) {
               <label style={{ color: 'var(--text-secondary)', fontWeight: 500, fontSize: '0.85rem' }}>Stock Quantity *</label>
               <div style={{ position: 'relative' }}>
                 <Layers size={16} style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
-                <input 
-                  type="number" 
-                  className="input-field" 
-                  placeholder="0" 
+                <input
+                  type="number"
+                  className="input-field"
+                  placeholder="0"
                   value={stock}
                   onChange={(e) => setStock(e.target.value)}
                   disabled={loading}
@@ -178,10 +188,10 @@ export default function Admin({ token, onProductAdded }) {
             <label style={{ color: 'var(--text-secondary)', fontWeight: 500, fontSize: '0.85rem' }}>Product Image URL</label>
             <div style={{ position: 'relative' }}>
               <Image size={16} style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
-              <input 
-                type="text" 
-                className="input-field" 
-                placeholder="https://images.unsplash.com/..." 
+              <input
+                type="text"
+                className="input-field"
+                placeholder="https://images.unsplash.com/..."
                 value={imageUrl}
                 onChange={(e) => setImageUrl(e.target.value)}
                 disabled={loading}
@@ -190,9 +200,9 @@ export default function Admin({ token, onProductAdded }) {
             </div>
           </div>
 
-          <button 
-            type="submit" 
-            className="btn btn-primary" 
+          <button
+            type="submit"
+            className="btn btn-primary"
             disabled={loading}
             style={{ marginTop: '15px', height: '48px' }}
           >
