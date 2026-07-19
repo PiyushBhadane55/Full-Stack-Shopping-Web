@@ -1,0 +1,11 @@
+com\portal\userservice\UserServiceApplication.class
+com\portal\userservice\repository\UserRepository.class
+com\portal\userservice\controller\UserController.class
+com\portal\userservice\dto\UserRegisterRequest.class
+com\portal\userservice\model\User.class
+com\portal\userservice\model\User$UserBuilder.class
+com\portal\userservice\dto\UserDTO$UserDTOBuilder.class
+com\portal\userservice\dto\UserDTO.class
+com\portal\userservice\service\UserService.class
+com\portal\userservice\dto\CredentialVerificationRequest.class
+com\portal\userservice\config\SecurityConfig.class

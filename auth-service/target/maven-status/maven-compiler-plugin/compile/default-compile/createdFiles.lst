@@ -1,0 +1,13 @@
+com\portal\authservice\config\AppConfig.class
+com\portal\authservice\dto\TokenValidationResponse.class
+com\portal\authservice\dto\LoginResponse$LoginResponseBuilder.class
+com\portal\authservice\controller\AuthController.class
+com\portal\authservice\dto\TokenValidationRequest.class
+com\portal\authservice\dto\UserDTO.class
+com\portal\authservice\service\AuthService.class
+com\portal\authservice\dto\CredentialVerificationRequest.class
+com\portal\authservice\dto\LoginRequest.class
+com\portal\authservice\service\JwtService.class
+com\portal\authservice\dto\LoginResponse.class
+com\portal\authservice\dto\TokenValidationResponse$TokenValidationResponseBuilder.class
+com\portal\authservice\AuthServiceApplication.class
