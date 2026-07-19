@@ -1,4 +1,4 @@
-# Nexus Portal v1 - User Management & Shopping Portal
+# Nexus Portal v2 - User Management & Shopping Portal
 
 Nexus Portal is a modern, high-performance microservices application comprising three Spring Boot backend services and a ReactJS frontend. The application features user authentication, role management, a product catalog, a shopping cart, and order history tracking.
 
@@ -12,7 +12,7 @@ The system consists of:
 3. **Shopping Portal Service (`shopping-service` :8083)**: Manages the product catalog, cart adjustments, and order checkouts. Runs against `shopping_db` using a custom `JwtInterceptor` for authorization.
 4. **ReactJS Frontend (:5173)**: A beautiful, glassmorphic dark-theme SPA that integrates all microservices.
 
-For a detailed view of the communication flows, database designs, and architectural patterns, refer to [architecture-v1.md](./architecture-v1.md).
+For a detailed view of the communication flows, database designs, and architectural patterns, refer to [architecture-v2.md](./architecture-v2.md).
 
 ---
 
@@ -88,6 +88,31 @@ Default users are automatically seeded into the database during Flyway migration
 | :--- | :--- | :--- |
 | **Standard User** | `user` | `user123` |
 | **Administrator** | `admin` | `admin123` |
+
+---
+
+## 🎭 End-to-End Testing (Playwright)
+
+We have included a comprehensive Playwright automation suite located in the `./playwright-tests` directory.
+
+### Steps to Run:
+1. Ensure the databases are created and all services (user-service, auth-service, shopping-service, frontend) are running.
+2. In a new terminal, navigate to the test directory:
+   ```bash
+   cd playwright-tests
+   npm install
+   npx playwright install chromium
+   ```
+3. Run the automated test scenarios:
+   ```bash
+   npm test
+   ```
+4. To open the interactive UI test runner:
+   ```bash
+   npm run test:ui
+   ```
+
+For more info, see the [Playwright README](./playwright-tests/README.md).
 
 ---
 
